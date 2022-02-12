@@ -1,2 +1,7 @@
+# vars file
 ---
-# vars file for dnsmasq
+dnsmasq_dependencies:
+  - dnsmasq
+
+dnsmasq_etc_default_file: /etc/default/dnsmasq
+dnsmasq_etc_conf_file: /etc/dnsmasq.conf

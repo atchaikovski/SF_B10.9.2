@@ -19,7 +19,7 @@ resource "aws_instance" "nginx" {
 
  resource "local_file" "inventory" {
 	  content = templatefile("${path.module}/hosts.tpl", {
-       		list_nginx = slice(aws_instance.nginx.*.public_ip, 0, var.nginx_count)
+       		list_nginx = slice(aws_instance.nginx.*.public_ip, 0, var.nginx_count),
 	  })
 	  filename = "inventory"
 	}

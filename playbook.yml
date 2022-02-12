@@ -9,5 +9,5 @@
   connection: ssh
   roles: 
     - dnsmasq
-    - superusers
-    - nginx-php-fpm
+#    - superusers
+#    - nginx-php-fpm

@@ -1,2 +1,7 @@
+# handlers file
 ---
-# handlers file for dnsmasq
+- name: restart dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+  when: service_default_state | default('started') == 'started'
