@@ -9,7 +9,5 @@
   connection: ssh
   roles: 
     - dnsmasq
-#    - superusers
+    - superusers
 #    - nginx-php-fpm
-  vars_files:
-    - vars/default.yml
