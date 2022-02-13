@@ -8,6 +8,6 @@
   gather_facts: yes
   connection: ssh
   roles: 
-    - dnsmasq
-    - superusers
-#    - nginx-php-fpm
+#    - dnsmasq
+#    - superusers
+    - nginx-php-fpm

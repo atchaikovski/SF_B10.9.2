@@ -1,2 +1,44 @@
 ---
-# tasks file for nginx-php-fpm
+
+- name: Install PHP {{php_version}} Repo
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+
+- name: Install PHP {{php_version}}
+  apt: name=php{{php_version}} state=latest
+
+- name: Install PHP packages
+  become: true
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - php{{php_version}}-curl
+    - php{{php_version}}-fpm
+    - php{{php_version}}-intl
+    - php{{php_version}}-xml
+    - php{{php_version}}-mbstring
+  notify: Restart PHP-FPM
+    
+# --- installing latest nginx ---
+- name: Install Nginx Web Server on RedHat Family
+  apt: name=nginx update_cache=yes state=latest
+
+- name: Update nginx config files
+  become: true
+  template:
+    src: templates/nginx.conf
+    dest: "/etc/nginx/sites-available/default"
+  tags:
+    - nginx
+  notify: Restart Nginx
+
+- name: link nginx config
+  become: true
+  file:
+    src: "/etc/nginx/sites-available/default"
+    dest: "/etc/nginx/sites-enabled/default"
+    state: link
+  tags:
+    - nginx
+  notify: Restart Nginx
