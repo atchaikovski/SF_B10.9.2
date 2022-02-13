@@ -1,0 +1,2 @@
+[nginx]
+www ansible_host=34.195.107.222

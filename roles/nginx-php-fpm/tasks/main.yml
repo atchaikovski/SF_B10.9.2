@@ -1,5 +1,13 @@
 ---
 
+#- name: stop httpd
+#  shell: 'systemctl stop httpd' 
+
+- name: Create DocumentRoot dir
+  file: 
+    path: "{{app_work_dir}}"
+    state: directory
+
 - name: Install PHP {{php_version}} Repo
   apt_repository:
     repo: 'ppa:ondrej/php'
@@ -13,25 +21,33 @@
     name: "{{ item }}"
     state: latest
   with_items:
-    - php{{php_version}}-curl
+#    - php{{php_version}}-curl
     - php{{php_version}}-fpm
-    - php{{php_version}}-intl
-    - php{{php_version}}-xml
-    - php{{php_version}}-mbstring
+#    - php{{php_version}}-intl
+#    - php{{php_version}}-xml
+#    - php{{php_version}}-mbstring
   notify: Restart PHP-FPM
-    
+
+- name: stop apache2
+  become: true
+  shell: systemctl stop apache2 
+  
+- name: Remove apache2
+  become: true
+  shell: |
+    apt autoremove -y
+    apt remove apache2 -y
+    apt-get purge -y apache2 apache2-utils apache2-bin 
+
 # --- installing latest nginx ---
-- name: Install Nginx Web Server on RedHat Family
+- name: Install Nginx Web Server on Debian Family
   apt: name=nginx update_cache=yes state=latest
 
-- name: Update nginx config files
+- name: Update nginx default config files
   become: true
   template:
-    src: templates/nginx.conf
+    src: "./templates/default.conf.j2"
     dest: "/etc/nginx/sites-available/default"
-  tags:
-    - nginx
-  notify: Restart Nginx
 
 - name: link nginx config
   become: true
@@ -39,6 +55,12 @@
     src: "/etc/nginx/sites-available/default"
     dest: "/etc/nginx/sites-enabled/default"
     state: link
-  tags:
-    - nginx
   notify: Restart Nginx
+
+- name: copy index.php
+  become: true
+  template:
+    src: "./templates/index.php.j2"
+    dest: "{{app_work_dir}}/index.php"
+  notify: Restart Nginx
+  

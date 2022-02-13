@@ -1,20 +1,8 @@
 ---
-# vars file for nginx-php-fpm
 
 ansible_ssh_user: "ubuntu"
 current_user: "ubuntu"
 server_name: "www.tchaikovski.link"
 
-repo_git_url: ""
-ansible_ssh_private_key_file: "~/.ssh/aws_adhoc.pem"
 php_version: 7.2
 app_work_dir: /opt/nginx/ansible/
-
-#other config
-cache_driver: file
-session_driver: file
-app_env: production
-app_debug: false
-app_key: "your_app_key"
-app_name: "app_name"
-app_url: "your_app_url"

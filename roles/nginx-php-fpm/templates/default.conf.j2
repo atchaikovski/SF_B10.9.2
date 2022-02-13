@@ -2,7 +2,7 @@ server {
         listen 80 default_server;
         listen [::]:80 default_server ipv6only=on;
         server_name {{ server_name }};
-        root {{ app_work_dir }}public;
+        root {{ app_work_dir }};
 
             location / {
         try_files $uri $uri/ /index.php?$args;
@@ -24,7 +24,7 @@ server {
 
         fastcgi_pass unix:/var/run/php/php{{php_version}}-fpm.sock;
         fastcgi_index  index.php;
-        fastcgi_param  SCRIPT_FILENAME  {{app_work_dir}}public$fastcgi_script_name;
+        fastcgi_param  SCRIPT_FILENAME  {{app_work_dir}}$fastcgi_script_name;
         fastcgi_param  APPLICATION_ENV testing;
         fastcgi_param  PATH /usr/bin:/bin:/usr/sbin:/sbin;
         fastcgi_intercept_errors on;

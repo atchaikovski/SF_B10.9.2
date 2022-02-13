@@ -3,3 +3,8 @@
   service: name=nginx state=restarted
   become_user: root
 
+- name: Restart PHP-FPM
+  service:
+    name: php{{php_version}}-fpm
+    state: restarted
+

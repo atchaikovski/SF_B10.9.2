@@ -26,6 +26,7 @@ resource "aws_instance" "nginx" {
 
 # --------- launch Ansible to deploy k8s on these resources ---------
 
+
 resource "null_resource" "null1" {
   depends_on = [
      local_file.inventory
