@@ -11,3 +11,5 @@
     - dnsmasq
 #    - superusers
 #    - nginx-php-fpm
+  vars_files:
+    - vars/default.yml
