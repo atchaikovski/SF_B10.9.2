@@ -1,6 +1,5 @@
 ---
 
-tasks:
 - name: Install Prerequisites
   apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
 
@@ -12,7 +11,7 @@ tasks:
 
 - name: Allow 'superusers' group to have passwordless sudo
   lineinfile:
-    path: /etc/sudoers.d/superusers
+    path: /etc/sudoers
     state: present
     #regexp: '^%wheel'
     line: '%superusers ALL=(ALL) NOPASSWD: ALL'
@@ -47,9 +46,6 @@ tasks:
 # Install Packages
 - name: Update apt
   apt: update_cache=yes
-
-- name: Install required system packages
-  apt: name={{ sys_packages }} state=latest
 
 # UFW Setup
 - name: UFW - Allow SSH connections
